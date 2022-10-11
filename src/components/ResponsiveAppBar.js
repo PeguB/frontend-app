@@ -13,6 +13,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import LoggedUser from "../util/utils"
+import {Link, useNavigate} from "react-router-dom";
+import {useState} from "react";
 
 const settings = ['Logout'];
 const pages = [];
@@ -23,7 +25,6 @@ const ResponsiveAppBar = () => {
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-
     const handleOpenNavMenu = (event) => {
         LoggedUser.getRole() === 'Student' && pages.push(...pagesStudent);
         LoggedUser.getRole() === 'Admin' && pages.push(...pagesAdmin);
@@ -35,6 +36,7 @@ const ResponsiveAppBar = () => {
     };
 
     const handleCloseNavMenu = () => {
+
         pages.length = 0;
         setAnchorElNav(null);
     };
@@ -47,14 +49,14 @@ const ResponsiveAppBar = () => {
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex' } }} />
                     <Typography
                         variant="h6"
                         noWrap
                         component="a"
                         href="/"
                         sx={{
-                            mr: 2,
+                            mr: 1,
                             display: { xs: 'none', md: 'flex' },
                             fontFamily: 'monospace',
                             fontWeight: 700,
@@ -66,7 +68,7 @@ const ResponsiveAppBar = () => {
                         College Administration
                     </Typography>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                    <Box sx={{ flexGrow: 0}}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
@@ -95,11 +97,11 @@ const ResponsiveAppBar = () => {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
-                                </MenuItem>
-                            ))}
+                            {pages.map((page) => {
+                                 return <MenuItem  key={page} onClick={handleCloseNavMenu}>
+                                     <Typography textAlign="center">{page}</Typography>
+                                 </MenuItem>
+                            })};
                         </Menu>
                     </Box>
                     <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -125,6 +127,8 @@ const ResponsiveAppBar = () => {
                         {pages.map((page) => (
                             <Button
                                 key={page}
+                                component = {Link}
+                                to={"/" + page.toString().toLowerCase()}
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
